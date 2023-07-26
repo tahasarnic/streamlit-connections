@@ -14,18 +14,18 @@ class QdrantConnection(ExperimentalBaseConnection[QdrantClient]):
         Pass url and api key for cloud connection
         you can both use secret.toml or inputs for the variables 
         """
-        if 'path' in kwargs:
-            path = kwargs.pop('path')
-            return QdrantClient(path=path)
-        elif 'host' in kwargs & 'port' in kwargs:
-            host = kwargs.pop('host')
-            port = kwargs.pop('port')
-            return QdrantClient(host=host, port=port)
-        elif 'url' in kwargs and 'api_key' in kwargs:
-            url = kwargs.pop('url')
-            api_key = kwargs.pop('api_key')
-            return QdrantClient(url=url, api_key=api_key)
-        elif 'path' in list(self._secrets.keys()):
+        # if 'path' in kwargs:
+        #     path = kwargs.pop('path')
+        #     return QdrantClient(path=path)
+        # elif 'host' in kwargs & 'port' in kwargs:
+        #     host = kwargs.pop('host')
+        #     port = kwargs.pop('port')
+        #     return QdrantClient(host=host, port=port)
+        # elif 'url' in kwargs and 'api_key' in kwargs:
+        #     url = kwargs.pop('url')
+        #     api_key = kwargs.pop('api_key')
+        #     return QdrantClient(url=url, api_key=api_key)
+        if 'path' in list(self._secrets.keys()):
             path = self._secrets['path']
             return QdrantClient(path=path)
         elif 'host' in list(self._secrets.keys()) and 'port' in list(self._secrets.keys()):
