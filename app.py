@@ -1,5 +1,4 @@
 import streamlit as st
-
 from streamlit_option_menu import option_menu
 from Pages.CSS.generalStyle import create_style
 from Pages import complaint, home
@@ -15,7 +14,7 @@ st.markdown(create_style(), unsafe_allow_html=True)
 # Title
 col1, col2 = st.columns([1, 5])
 with col1:
-    st.image("Static/logo.png")
+    st.image("static/logo.png")
 with col2:
     selected = option_menu("Complaint Matching with QdrantDB", ["Home", "Complaint Matching",],
                            icons=["caret-right-fill", "caret-right-fill"], menu_icon="cast", orientation="horizontal", styles={
