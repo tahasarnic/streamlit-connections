@@ -4,14 +4,32 @@ from qdrant_connection import QdrantConnection
 
 
 def create_page():
+
+    # initialize session_state
+    def initialize_session_state():
+        if "sentence" not in st.session_state:
+            st.session_state["sentence"] = ""
+    initialize_session_state()
     # encoder choice for vectors
     encoder = SentenceTransformer('all-MiniLM-L6-v2')
     conn = st.experimental_connection(
         'qdrant_db', type=QdrantConnection, database=':memory')
 
-    st.write(conn.get_collections())
+    st.markdown("""
+    # Search Similar Complaints
+""")
+    st.session_state.sentence = st.text_input(
+        "Complaints", "Write your complaint here")
 
-    st.write(conn.cursor().get_collections())
+    if st.session_state.sentence != "":
+        input_query = encoder.encode(st.session_state.sentence).tolist()
+        st.dataframe(conn.query(
+            collection_name='comcat-complaints', query=input_query, limit=5))
+
+    st.markdown("""
+    ### See the collection you are using by *get_collections*
+""")
+    st.write(conn.get_collections())
 
     # """
     # You can use the following example to how to upload new documents to vector database such as qdrant
@@ -33,6 +51,9 @@ def create_page():
 
     # conn.upload_vectors(collection_name='new_collection', vector = get_embeddings(text), documents = documents)
     # """
+    st.markdown("""
+    ### An example similarity check with the sentence 'comcat is bad'
+""")
     myquery = encoder.encode("comcat is bad").tolist()
     st.dataframe(conn.query(
         collection_name='comcat-complaints', query=myquery, limit=5))

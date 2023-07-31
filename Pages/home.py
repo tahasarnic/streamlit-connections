@@ -1,7 +1,6 @@
 import streamlit as st
 
 
-@st.cache_resource()
 def create_page():
 
     st.markdown("""
@@ -15,7 +14,7 @@ To find answers quickly people should be able to see similar problems that opene
 In the second page, you can write your complaints to see the similar problems that opened before.
 Have fun playing with it :smile:
 
-## How to connect?
+### How to connect?
 You can use the QdrantConnection class inside connections.py file. Check the file for more detailed information.
 
 1. Call *st.experimantal_connection* inside your project with type = QdrantConnection & assign it to a variable.
