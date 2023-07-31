@@ -4,28 +4,20 @@ from qdrant_connection import QdrantConnection
 
 
 def create_page():
-
     # initialize session_state
-    def initialize_session_state():
-        if "sentence" not in st.session_state:
-            st.session_state["sentence"] = ""
-    initialize_session_state()
     # encoder choice for vectors
     encoder = SentenceTransformer('all-MiniLM-L6-v2')
     conn = st.experimental_connection(
         'qdrant_db', type=QdrantConnection, database=':memory')
-
     st.markdown("""
     # Search Similar Complaints
-""")
-    st.session_state.sentence = st.text_input(
+    """)
+    sentence = st.text_input(
         "Complaints", "Write your complaint here")
-
-    if st.session_state.sentence != "":
-        input_query = encoder.encode(st.session_state.sentence).tolist()
+    if sentence != "":
+        input_query = encoder.encode(sentence).tolist()
         st.dataframe(conn.query(
             collection_name='comcat-complaints', query=input_query, limit=5))
-
     st.markdown("""
     ### See the collection you are using by *get_collections*
 """)
